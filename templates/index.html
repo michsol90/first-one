@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>ESP32 DATA Sensor</title>
+    <link rel="stylesheet" href='../static/style.css'/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+		body {
+			text-align: center;
+		}
+		#g1,
+		#g2,
+		#g3,
+		#g4,
+		#g5{
+			width: 50px;
+			height: 50px;
+			display: inline-block;
+			margin: 1em;
+		}
+    </style>
+</head>
+
+<body>
+	<div class="container">
+    	<canvas id="myChart"></canvas>
+  	</div>
+	
+	<h1>Sensor last Measurement per Hour</h1>
+	<hr2> last Measure food of he cat -> {{food}} grams at time: {{time}}</hr2>
+	
+	<h1> gauges bars of data</h1>
+	
+		<div id="g1"></div>
+    	<div id="g2"></div>
+    	<div id="g3"></div>
+    	<div id="g4"></div>
+    	<div id="g5"></div>
+    	
+    <hr>
+    <h2> Last Measured data at {{time}}</h2>	
+	<h3> Ambient Temperature  ==>  {{ ambtemp  }} oC</h3>
+	<h3> Ambient Humidity(Rel.) ==>  {{ ambhum  }} %</h3>
+	<hr>	
+	<img src="/plot/ambient" alt="Image Placeholder" width="49%">
+	<img src="/plot/plant" alt="Image Placeholder" width="49%">
+	<h3> HISTORICAL DATA </h3>
+		{% for table in tables %}
+		{{tables|safe}}
+		{% endfor %}
+	<hr>
+	<hr3> Turn on Light with button (The light is : {{lightstate}})</hr3>
+	<form action ="/turn_on_lights" method="POST">
+	<button type="submit1" name="submit_button1" value="Do Something1">LIGHTS ON</button>
+	</form>
+	
+	<hr>
+	<hr3> Turn on Light with button (The light is : {{lightstate}})</hr3>
+	<form action ="/turn_off_lights" method="POST">
+	<button type="submit2" name="submit_button2" value="Do Something2">LIGHTS OFF</button>
+	</form>
+	
+	
+    <p> @2021 developed by M.R.Solognier</p>
+    <script src="../static/raphael-2.1.4.min.js"></script>
+    <script src="../static/justgage.js"></script>
+    
+    <script>
+		var g1, g2, g3 , g4, g5
+		document.addEventListener("DOMContentLoaded", function(event) {
+			g1 = new justgage({
+				id: "g1",
+				value: {{ambtemp}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: -100,
+				max: 100,
+				title: "Ambient Temperature",
+				label: "Celcius"
+			});
+			g2 = new justgage({
+				id: "g2",
+				value: {{ambhum}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: 0,
+				max: 100,
+				title: "Ambient Humidity",
+				label: "%"
+			});g3 = new justgage({
+				id: "g3",
+				value: {{plthum}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: 0,
+				max: 100,
+				title: "Plant Humidity",
+				label: "%"
+			});
+			g4 = new justgage({
+				id: "g4",
+				value: {{plttemp}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: -100,
+				max: 100,
+				title: "Plant Temperature,
+				label: "Celcius"
+			});
+			g5 = new justgage({
+				id: "g5",
+				value: {{food}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: 0,
+				max: 12000,
+				title: "food",
+				label: "gram"
+			});
+		    });
+
+
+    </script>
+</body>
+
+
+</html>
